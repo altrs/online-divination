@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Divination</title>
+</head>
+<body>
+
+
+    <form id="myForm">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" placeholder="Enter your First Name">
+      <br>
+      <label for="dob">Birthday:</label>
+      <input type="date" id="dob">
+      <br>
+      <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <p>
+    <div id="result">
+
+    </div>
+    <br>
+    <div id="scope">
+
+    </div>
+    <br>
+    <div id="gpt">
+    </div>
+    </p>
+    <br>
+
+
+
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("myForm").addEventListener("submit", submitForm);
+    });
+
+    async function submitForm() {
+
+      try {
+        const firstName = document.getElementById('firstName').value;
+        const dob = document.getElementById('dob').value;
+        const url = 'https://guess-personality.onrender.com/submit'
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {"Content-Type": "application/json",},
+          body: JSON.stringify({ firstName, dob }),
+        });
+
+        const resultContainer = document.getElementById('result');
+        resultContainer.textContent = '';
+
+        if (response.ok) {
+          console.log('response ok');
+          const jsonData = await response.json();
+          const message = jsonData.gpt;
+          document.getElementById("result").innerHTML = message;
+        } else {resultContainer.textContent = "Error in submitting data.";}
+      } catch (error) {
+        console.log(error.message);
+        return '';
+      }
+    }
+
+</script>
+</body>
+</html>
