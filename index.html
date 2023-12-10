@@ -3,54 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Divination</title>
+  <title>ONLINE SPELL GUIDE</title>
+  <style>
+    body {
+    background: url('assets/back.png');
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    align-content: center;
+    margin-top: 50px;
+  }
+
+  .content1{
+    border: 1px solid;
+    width: 475px;
+    height: 300px;
+    text-align: left;
+    padding: 2%;
+    font-style: italic;
+    background-color: transparent;
+  }
+
+  input {
+    padding: 3px;
+    margin: 2px;
+    border: 0px solid;
+    font-size: 12px;
+    font-style: italic;
+    font-family: 'Times New Roman';
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  input::placeholder {
+    font-family: 'Times New Roman';
+    font-style: italic;
+    font-size: 12px;
+    color: black;
+  }
+
+  input[type="date"] {
+    padding: 3px;
+    font-style: italic;
+    border-radius: 5px;
+    font-family: 'Times New Roman';
+    font-size: 12px;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  button{
+    padding: 3px;
+    margin: 2px;
+    border: 1px solid;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0); 
+  }
+
+  .content2{
+    border: 1px solid;
+    width: 475px;
+    height: 300px;
+    text-align: center;
+    padding: 2%;
+    display: none;
+    font-style: italic;
+    background-color: transparent;
+  }
+
+  .content2 img{
+    transition: transform 1s ease-in-out;
+  }
+
+  .content3{
+    border: 1px solid;
+    width: 475px;
+    height: 300px;
+    text-align: center;
+    padding: 2%;
+    display: none;
+    font-style: italic;
+    background-color: transparent;
+    text-transform: capitalize;
+  }
+
+  </style>
 </head>
 <body>
 
+  <div class="title">
+    <img style="width: 10%;" src="assets/duck.png"/>
+    <img style="width: 35%;" src="assets/title.png"/>
+    <img style="width: 10%;" src="assets/bunny.png"/>
+    <p><i><b>MANIFEST YOUR FUTURE!</b></i></p>
+  </div>
 
+  <div class="content1" id="content1">
     <form id="myForm">
-      <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" placeholder="Enter your First Name">
-      <br>
-      <label for="dob">Birthday:</label>
-      <input type="date" id="dob">
-      <br>
+      <label for="firstName">LETS BEGIN. WHAT'S YOUR NAME?</label><br>
+      <input type="text" id="firstName" placeholder="enter your name"><br><br>
+      <label for="dob">WHEN WERE YOU BORN?</label><br>
+      <input type="date" id="dob"><br><br><br>
       <button type="button" onclick="submitForm()">Submit</button>
     </form>
-
-    <p>
-    <div id="result">
-
-    </div>
-    <br>
-    <div id="scope">
-
-    </div>
-    <br>
-    <div id="gpt">
-    </div>
-    </p>
-    <br>
+  </div>
 
 
+  <div class="content2" id="content2">
+    <p><div id="result"></div></p>
+  </div>
 
+  <div class="content3" id="content3">
+    <p id="address"></p>
+    <p id="spell"></p>
+    <p id="gpt"></p>
+  </div>
 
-<script>
-
-  document.addEventListener("DOMContentLoaded", () => {
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("myForm").addEventListener("submit", submitForm);
     });
 
+    let spinId;
+    let gpt;
+    let spell;
+    let firstName;
+    let aries = ['Courage', 'authority', 'leadership', 'power', 'the forces', 'will power', 'new beginnings', 'challenges', 'protection'];
+    let taurus = ['Stability', 'health', 'assistance', 'marriage', 'family', 'material gain', 'careers', 'financial stability', 'healing'];
+    let gemini = ['Communication', 'neighbours', 'travel', 'siblings', 'transport', 'knowledge', 'education', 'activity', 'imagination', 'divination', 'wishing', 'luck', 'success'];
+    let cancer = ['Family', 'home', 'gratitude', 'blessings', 'comfort', 'abundance', 'prosperity', 'love', 'luck', 'cleansing'];
+    let leo = ['Courage', 'the arts', 'public speaking', 'fertility', 'healing', 'influence', 'success', 'goals', 'removing obstacles', 'creativity', 'confidence'];
+    let virgo = ['Employment', 'foundations', 'planning', 'organisation', 'financial planning', 'communication', 'clarity', 'precision', 'research', 'paperwork', 'details', 'healing'];
+    let libra = ['Creativity', 'expression', 'partnerships', 'legal matters', 'balance', 'new love', 'new projects', 'truth', 'justice'];
+    let scorpio = ['Luck', 'psychic abilities', 'mental issues', 'inner work', 'secrets', 'cleansing', 'reincarnation', 'past lives', 'karma', 'enemies', 'spirituality', 'magic of all kinds'];
+    let sagittarius = ['Travel', 'legal matters', 'publishing', 'healing', 'growth', 'spiritual relationships', 'creativity', 'co-operation', 'sharing', 'business success', 'transformation', 'inspiration', 'new beginnings', 'expanding', 'removing obstacles', 'releasing', 'meditation'];
+    let capricorn = ['New business', 'new projects', 'planning', 'growth', 'organisation', 'foundations', 'ambitions', 'strength', 'health', 'banishing debt', 'clearing out', 'removing obstacles', 'rules', 'boundaries', 'elimination of pain'];
+    let aquarius = ['Inspiration', 'innovation', 'clarity', 'social events', 'friendships', 'moving forward', 'solving issues'];
+    let pisces = ['Dreams', 'astral travel', 'past lives', 'reincarnation', 'karma', 'psychic abilities', 'creativity', 'the arts', 're-connecting with your spiritual path'];
+
+
     async function submitForm() {
+      document.getElementById('result').textContent = "GENERATING YOUR SPELL WHEEL...";
+      document.getElementById('content1').style.display = "none";
+      document.getElementById('content2').style.display = "block";
 
       try {
-        const firstName = document.getElementById('firstName').value;
+        firstName = document.getElementById('firstName').value;
         const dob = document.getElementById('dob').value;
-        const url = 'https://guess-personality.onrender.com/submit'
-
+        const url = 'https://guess-personality.onrender.com/submit';
         const response = await fetch(url, {
           method: "POST",
-          headers: {"Content-Type": "application/json",},
+          headers: {"Content-Type": "application/json"},
           body: JSON.stringify({ firstName, dob }),
         });
 
@@ -58,17 +165,97 @@
         resultContainer.textContent = '';
 
         if (response.ok) {
-          console.log('response ok');
           const jsonData = await response.json();
-          const message = jsonData.gpt;
-          document.getElementById("result").innerHTML = message;
+          const horoscope = jsonData.sign;
+          gpt = jsonData.gpt;
+          document.getElementById("result").innerHTML = `${horoscope}'s Wheel of Spells`;
+
+          const imageElement = document.createElement('img');
+          if(horoscope == 'Aries'){
+            imageElement.src = 'assets/aries.png';
+            spell = getRand(aries);
+          }
+          else if(horoscope == 'Taurus'){
+            imageElement.src = 'assets/taurus.png';
+            spell = getRand(taurus);
+          }
+          else if(horoscope == 'Gemini'){
+            imageElement.src = 'assets/gemini.png';
+            spell = getRand(gemini);
+          }
+          else if(horoscope == 'Cancer'){
+            imageElement.src = 'assets/cancer.png';
+            spell = getRand(cancer);
+          }
+          else if(horoscope == 'Leo'){
+            imageElement.src = 'assets/leo.png';
+            spell = getRand(leo);
+          }
+          else if(horoscope == 'Virgo'){
+            imageElement.src = 'assets/virgo.png';
+            spell = getRand(virgo);
+          }
+          else if(horoscope == 'Libra'){
+            imageElement.src = 'assets/libra.png';
+            spell = getRand(libra);
+          }
+          else if(horoscope == 'Scorpio'){
+            imageElement.src = 'assets/scorpio.png';
+            spell = getRand(scorpio);
+          }
+          else if(horoscope == 'Sagittarius'){
+            imageElement.src = 'assets/sagittarius.png';
+            spell = getRand(sagittarius);
+          }
+          else if(horoscope == 'Capricorn'){
+            imageElement.src = 'assets/capricorn.png';
+            spell = getRand(capricorn);
+          }
+          else if(horoscope == 'Aquarius'){
+            imageElement.src = 'assets/aquarius.png';
+            spell = getRand(aquarius);
+          }
+          else if(horoscope == 'Pisces'){
+            imageElement.src = 'assets/pisces.png';
+            spell = getRand(pisces);
+          }
+          imageElement.style.width = '50%';
+          imageElement.style.cursor = 'pointer';
+          const imageContainer = document.getElementById('content2');
+          imageContainer.appendChild(imageElement);
+
+          setTimeout(() => {
+            let rotationAngle = 0;
+            spinId = setInterval(() => {
+              rotationAngle += 45;
+              imageElement.style.transform = `rotate(${rotationAngle}deg)`;
+            }, 200);
+            imageElement.addEventListener("click", stopWheel);
+          }, 1500);
+
+
+
         } else {resultContainer.textContent = "Error in submitting data.";}
-      } catch (error) {
-        console.log(error.message);
-        return '';
-      }
+      } catch (error) {console.log(error.message);return '';}
     }
 
-</script>
+    function stopWheel(){
+      clearInterval(spinId);
+      document.getElementById("address").innerHTML = `${firstName}, it is advised you cast a spell for: `;
+      document.getElementById("spell").innerHTML = `${spell}`;
+      document.getElementById("gpt").innerHTML = `${gpt}`;
+      setTimeout(() => {
+        document.getElementById('content2').style.display = "none";
+        document.getElementById('content3').style.display = "block";
+      }, 1000);
+    }
+
+    function getRand(array) {
+      const randomIndex = Math.floor(Math.random() * array.length);
+      return array[randomIndex];
+    }
+
+  </script>
+
 </body>
 </html>
