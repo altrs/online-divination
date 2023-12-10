@@ -62,6 +62,7 @@
     border: 1px solid;
     font-size: 14px;
     background-color: rgba(255, 255, 255, 0); 
+    cursor: pointer;
   }
 
   .content2{
@@ -82,13 +83,29 @@
   .content3{
     border: 1px solid;
     width: 475px;
-    height: 300px;
+    height: 320px;
     text-align: center;
     padding: 2%;
     display: none;
     font-style: italic;
     background-color: transparent;
-    text-transform: capitalize;
+    text-transform: uppercase;
+  }
+
+  #cards{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #cards div{
+    width: 50px;
+    height: 95px;
+    border: 1px solid;
+    display: flex;
+    background-color: black;
+    cursor: pointer;
+    margin: 10px;
   }
 
   </style>
@@ -104,7 +121,7 @@
 
   <div class="content1" id="content1">
     <form id="myForm">
-      <label for="firstName">LETS BEGIN. WHAT'S YOUR NAME?</label><br>
+      <label for="firstName">WHAT'S YOUR NAME?</label><br>
       <input type="text" id="firstName" placeholder="enter your name"><br><br>
       <label for="dob">WHEN WERE YOU BORN?</label><br>
       <input type="date" id="dob"><br><br><br>
@@ -119,8 +136,15 @@
 
   <div class="content3" id="content3">
     <p id="address"></p>
-    <p id="spell"></p>
+    <p id="spell" style="font-weight: 900;"></p>
     <p id="gpt"></p>
+    <div id="cards">
+      <div id="c1" onclick="changeBackground(this)"></div>
+      <div id="c2" onclick="changeBackground(this)"></div>
+      <div id="c3" onclick="changeBackground(this)"></div>
+      <div id="c4" onclick="changeBackground(this)"></div>
+      <div id="c5" onclick="changeBackground(this)"></div>
+    </div>
   </div>
 
   <script>
@@ -231,7 +255,7 @@
               imageElement.style.transform = `rotate(${rotationAngle}deg)`;
             }, 200);
             imageElement.addEventListener("click", stopWheel);
-          }, 1500);
+          }, 1000);
 
 
 
@@ -253,6 +277,26 @@
     function getRand(array) {
       const randomIndex = Math.floor(Math.random() * array.length);
       return array[randomIndex];
+    }
+
+    const cards = [];
+    for(let x = 1; x <= 21; x++){
+        cards.push(`extra/${x}.jpeg`);
+      }
+
+    function changeBackground(div){
+
+      if (!div.classList.contains('clicked')) {
+        const randomImage = cards[Math.floor(Math.random() * cards.length)];
+        div.style.backgroundImage = `url('assets/${randomImage}')`;
+        div.style.backgroundSize = 'cover';
+        div.classList.add('clicked');
+        div.removeEventListener('click', clickHandler);
+      }
+    }
+
+    function clickHandler() {
+      changeBackground(this);
     }
 
   </script>
