@@ -108,6 +108,21 @@
     margin: 10px;
   }
 
+  @media only screen and (max-width: 600px) {
+      
+    .content1{
+      width: 300px;
+    }
+
+    .content2{
+      width: 300px;
+    }
+    .content3{
+      width: 300px;
+      height: 360px;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -171,7 +186,7 @@
 
 
     async function submitForm() {
-      document.getElementById('result').textContent = "GENERATING YOUR SPELL WHEEL...";
+      document.getElementById('result').textContent = "GENERATING YOUR SPELL WHEEL... (MAY TAKE A MOMENT)";
       document.getElementById('content1').style.display = "none";
       document.getElementById('content2').style.display = "block";
 
